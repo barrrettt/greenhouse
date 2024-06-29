@@ -2,6 +2,7 @@ import time
 import logging
 from modules import my_log
 from modules import humidity
+from modules import luminosity
 
 def main():
     log = logging.getLogger("__name__")
@@ -11,6 +12,7 @@ def main():
         while True:
             try:
                 humidity.read()
+                luminosity.read()
                 time.sleep(0.1)
                 
             except Exception as e:
@@ -20,7 +22,7 @@ def main():
         log.info("User stop") 
         
 # script run
-#if __name__ == "__main__": 
-main()
+if __name__ == "__main__": 
+    main()
 
 
