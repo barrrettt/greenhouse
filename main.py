@@ -1,12 +1,11 @@
-
 import time
-from modules import humidity
 import logging
+from modules import my_log
+from modules import humidity
 
 def main():
-    log = logging.getLogger("main")
+    log = logging.getLogger("__name__")
     log.info("Start greenhouse 🌱🌾🍅🫑")
-    
     try:
         # main loop
         while True:
@@ -21,7 +20,7 @@ def main():
         log.info("User stop") 
         
 # script run
-if __name__ == "__main__": 
-    main()
+#if __name__ == "__main__": 
+main()
 
 

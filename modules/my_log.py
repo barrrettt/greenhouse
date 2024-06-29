@@ -10,6 +10,3 @@ logging.basicConfig(
         logging.StreamHandler()  # in console
     ]
 )
-
-# Crear un logger
-logger = logging.getLogger(__name__)
