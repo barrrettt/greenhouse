@@ -1,4 +1,6 @@
 # GREENHOUSE
-Raspberrypi for garden.
-Raspis for garden and greenhouses with sensors, actuators, solar panels, water... 
+Raspberrypi for garden and greenhouse: 
+
+sensors, actuators, solar panels, water... 
+
 🌱🌾🍅🫑
