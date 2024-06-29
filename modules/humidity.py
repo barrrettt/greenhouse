@@ -13,8 +13,8 @@ def read():
     status = GPIO.input(pin_DO)
     
     if status == GPIO.HIGH:
-        log.info("Humidity: YES")
+        log.debug("Humidity: ---")
     else:
-        log.info("Humidity: ---")
+        log.debug("Humidity: YES")
     
     return status
