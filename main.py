@@ -13,10 +13,12 @@ def main():
             try:
                 humidity.read()
                 luminosity.read()
-                time.sleep(0.1)
                 
             except Exception as e:
                 log.error(f"Error main loop {e}") 
+                
+            finally:
+                time.sleep(0.5)   
                 
     except KeyboardInterrupt:
         log.info("User stop") 
