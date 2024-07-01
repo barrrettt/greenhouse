@@ -4,7 +4,7 @@ import logging
 
 log = logging.getLogger(__name__)
 
-RELAY_PIN = 26  # BCM 
+RELAY_PIN = 26 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(RELAY_PIN, GPIO.OUT)
 
