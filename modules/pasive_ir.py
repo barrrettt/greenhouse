@@ -3,19 +3,19 @@ import time
 import logging
 log = logging.getLogger(__name__)
 
-# Config
-PIN = 13 
+# Config Pasive IR 👁️
+PIN = 26 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(PIN, GPIO.IN)
 
 def check():
     try:
         if GPIO.input(PIN):
-            log.info("Movimiento detectado!")
+            log.debug("👁️")
             return True
         else:
-            log.info("---")
+            log.debug("--")
             return False
     except:
-        log.info("No se puede leer el IR")
+        log.debug("No se puede leer el IR")
         return False

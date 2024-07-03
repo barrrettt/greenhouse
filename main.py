@@ -2,36 +2,45 @@ import time
 import RPi.GPIO as GPIO
 import logging
 from modules import my_log
-from modules import humidity
+from modules import humidity_ground
+from modules import temperature_humidity
 from modules import luminosity
 from modules import pasive_ir
 from modules import sensor_ir
-from modules import engine
+#from modules import engine_on_off
+from modules import reles8
+
+
 
 def main():
-    log = logging.getLogger("__name__")
+    log = logging.getLogger()
     log.info("Start greenhouse 🌱🌾🍅🫑")
     try:
         # Main loop 
         while True:
             try:
                 # Sensors 
-                humidity.read()
-                #luminosity.read()
-                #pasive_ir.check()
+                #humidity_ground.read()
+                lux = luminosity.read()
+                status = pasive_ir.check()
+                result = temperature_humidity.read()
                 #sensor_ir.check()
                 
                 # Actuators ----
-                engine.check()
+                #engine_on_off.check()
+                
+                light_on = (lux <= 10)
+                reles8.set_pin_state(16,light_on)
+            
                 
             except Exception as e:
                 log.error(f"Error main loop {e}") 
                 
             finally:
-                time.sleep(0.5)   
+                time.sleep(0.2)
                 
     except KeyboardInterrupt:
-        log.info("User stop") 
+        log.debug("User stop") 
         
     finally:
         GPIO.cleanup()

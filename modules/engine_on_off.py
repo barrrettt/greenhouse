@@ -4,16 +4,17 @@ import logging
 
 log = logging.getLogger(__name__)
 
-RELAY_PIN = 26 
+RELAY_PIN = 00 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(RELAY_PIN, GPIO.OUT)
 
 
 last_time = time.time()
-interval = 2
+interval = 1
 status = False
 
-def check():
+# on-off energy loop for engine
+def execute():
     global last_time
     global status
     
@@ -23,4 +24,4 @@ def check():
         status = not status
         GPIO.output(RELAY_PIN, GPIO.LOW if status else GPIO.HIGH)
         last_time = now
-        log.info(f"Engine: {status}")
+        log.debug(f"🛞: {status}")

@@ -15,14 +15,14 @@ def check():
         right_sensor = GPIO.input(SENSOR_RIGHT_PIN)
 
         if left_sensor == 0:
-            log.info("LEFT: ***")
+            log.debug("LEFT: ***")
         else:
-            log.info("LEFT:")
+            log.debug("LEFT:")
             
         if right_sensor == 0:
-            log.info("RIGHT: ***")
+            log.debug("RIGHT: ***")
         else:
-            log.info("RIGHT:")
+            log.debug("RIGHT:")
             
         return (left_sensor, right_sensor)
     
