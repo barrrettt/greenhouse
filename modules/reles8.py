@@ -16,12 +16,16 @@ PINS = {
     16: False,
 }
 
-# all are output
-GPIO.setmode(GPIO.BCM)
-for pin in PINS: 
-    GPIO.setup(pin, GPIO.OUT)
-    GPIO.output(pin, GPIO.LOW)
-                
+def setup(pins):
+    global PINS 
+    if pins:
+        PINS = pins
+        
+    # all are output
+    GPIO.setmode(GPIO.BCM)
+    for pin in PINS: 
+        GPIO.setup(pin, GPIO.OUT)
+    
 def set_pin_state(pin_number, state):
     if pin_number in PINS:
         if state:

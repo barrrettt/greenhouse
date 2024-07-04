@@ -125,14 +125,18 @@ except Exception as e:
     log.error(f"Cant setup BH1750: {e} ")
         
 # User this 
-def read(): 
+def read_loop(data,running): 
     global sensor 
-    try: 
-        if sensor: 
-            read = sensor.measure_high_res2() 
-            log.debug(f"LIGHT ☀️  {read} lx") 
-            return read 
+    while running():
+        try: 
+            if sensor: 
+                read = sensor.measure_high_res2() 
+                log.debug(f"LIGHT ☀️  {read} lx") 
+                data["luminosity"] = read 
 
-    except Exception as e:
-        log.error(f" {e} ")
-        return 0
+        except Exception as e:
+            log.error(f" {e} ")
+            data["luminosity"] = None
+        
+        finally:
+            time.sleep(0.5)

@@ -8,14 +8,18 @@ PIN = 26
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(PIN, GPIO.IN)
 
-def check():
-    try:
-        if GPIO.input(PIN):
-            log.debug("👁️")
-            return True
-        else:
-            log.debug("--")
-            return False
-    except:
-        log.debug("No se puede leer el IR")
-        return False
+def read_loop(data,running): 
+    while running():
+        try:
+            if GPIO.input(PIN):
+                log.debug("👁️")
+                data["pasive_ir"] = True 
+            else:
+                log.debug("--")
+                data["pasive_ir"] = False 
+        except:
+            log.debug("No se puede leer el IR")
+            data["pasive_ir"] = False 
+            
+        finally:
+            time.sleep(0.5)
