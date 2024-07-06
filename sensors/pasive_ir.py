@@ -4,7 +4,7 @@ import logging
 log = logging.getLogger(__name__)
 
 # Config Pasive IR 👁️
-PIN = 26 
+PIN = 19 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(PIN, GPIO.IN)
 

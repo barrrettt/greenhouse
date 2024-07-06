@@ -6,26 +6,22 @@ log = logging.getLogger(__name__)
 
 # RELES8 🤖
 PINS = {
-    14: False,
-    15: False,
     18: False,
+    23: False,
+    24: False,
     25: False,
-    8: False,
-    7: False,
     12: False,
     16: False,
+    20: False,
+    21: False,
 }
-
-def setup(pins):
-    global PINS 
-    if pins:
-        PINS = pins
         
-    # all are output
-    GPIO.setmode(GPIO.BCM)
-    for pin in PINS: 
-        GPIO.setup(pin, GPIO.OUT)
-    
+# all are output
+GPIO.setmode(GPIO.BCM)
+for pin in PINS: 
+    GPIO.setup(pin, GPIO.OUT)
+    GPIO.output(pin, GPIO.LOW)
+                
 def set_pin_state(pin_number, state):
     if pin_number in PINS:
         if state:

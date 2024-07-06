@@ -5,51 +5,58 @@ import time
 import logging
 from modules import my_log
 
-from modules import humidity_ground
-from modules import luminosity
-from modules import pasive_ir
+from sensors import humidity_ground
+from sensors import luminosity
+from sensors import pasive_ir
 
-from modules import reles8
+from actuators import reles8
 
 data = {
     'humidity': None,
     'luminosity': None,
     'pasive_ir': None,
+    'humidity_ground': None,
 }
 
 running = True
+log = logging.getLogger()
 
 def main():
-    log = logging.getLogger()
+    
     log.info("Start greenhouse 🌱🌾🍅🫑")
     
     global data
     global running
     
     try:
+        t_luminosity = threading.Thread(
+            target=luminosity.read_loop, 
+            args=(data, lambda:running)
+            )
+        t_luminosity.start()
         
-        luminosity_thread = threading.Thread(target=luminosity.read_loop, args=(data, lambda:running))
-        luminosity_thread.start()
+        t_pasive_ir= threading.Thread(
+            target=pasive_ir.read_loop, 
+            args=(data, lambda:running)
+            )
+        t_pasive_ir.start()
         
-        pasive_ir_thread = threading.Thread(target=pasive_ir.read_loop, args=(data, lambda:running))
-        pasive_ir_thread.start()
-        
+        t_humidity_ground = threading.Thread(
+            target=humidity_ground.read_loop, 
+            args=(data, lambda:running)
+            )
+        t_humidity_ground.start()
+
         # Main loop 
         while True:
             try:
-                log.info(f"Sensor Data: {data}")
-                # Sensors 
-                #humidity_ground.read()
-                #status = pasive_ir.check() #ok
-                
-    
-                #sensor_ir.check()
-                
+                print_data()
+
                 # Actuators ----
                 #engine_on_off.check()
                 
-                #light_on = (lux <= 10)
-                #reles8.set_pin_state(16,light_on)
+                light_on = (data["luminosity"] <= 10)
+                reles8.set_pin_state(21,light_on)
             
             except Exception as e:
                 log.error(f"Error main loop {e}") 
@@ -60,12 +67,20 @@ def main():
     except KeyboardInterrupt:
         log.debug("User interrupt: stopping...") 
         running = False
-        luminosity_thread.join()
+        # waiting for threads finish 
+        t_luminosity.join()
+        t_pasive_ir.join()
+        t_humidity_ground.join()
         
     finally:
         GPIO.cleanup()
         log.debug("Exit 👋") 
         
+        
+def print_data():
+    global data
+    log.info(f"Sensor Data: {data}")
+    
 # script run
 if __name__ == "__main__": 
     main()
