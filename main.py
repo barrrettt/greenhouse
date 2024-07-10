@@ -8,6 +8,7 @@ from modules import my_log
 from sensors import humidity_ground
 from sensors import luminosity
 from sensors import pasive_ir
+from sensors import temp_humidity_dht20
 
 from actuators import reles8
 
@@ -16,6 +17,8 @@ data = {
     'luminosity': None,
     'pasive_ir': None,
     'humidity_ground': None,
+    'temperature_air': None,
+    'humidity_air': None,
 }
 
 running = True
@@ -29,6 +32,7 @@ def main():
     global running
     
     try:
+        # launch threads
         t_luminosity = threading.Thread(
             target=luminosity.read_loop, 
             args=(data, lambda:running)
@@ -46,6 +50,12 @@ def main():
             args=(data, lambda:running)
             )
         t_humidity_ground.start()
+
+        t_dht20 = threading.Thread(
+            target=temp_humidity_dht20.read_loop, 
+            args=(data, lambda:running)
+            )
+        t_dht20.start()        
 
         # Main loop 
         while True:
@@ -71,6 +81,7 @@ def main():
         t_luminosity.join()
         t_pasive_ir.join()
         t_humidity_ground.join()
+        t_dht20.join()
         
     finally:
         GPIO.cleanup()
