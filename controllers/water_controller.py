@@ -1,22 +1,17 @@
-# Ligths on controller
 from actuators import reles8
 from modules import database
-import time
-from datetime import datetime
+from datetime import datetime, time, timedelta
 import logging
 
 log = logging.getLogger(__name__)
 
-PIN_RELE = 20
+PIN_RELE = 16
 READS_TO_WET = 5
 
-START_TIME_1 = time(22, 0)   # 22:00
-END_TIME_1 = time(22, 5)     # 22:05 (5 minutos después)
-START_TIME_2 = time(8, 0)    # 08:00
-END_TIME_2 = time(8, 5)      # 08:05 (5 minutos después)
-
-# LOGIC: if is time (2 times at day) start irrigate for 1 minute (except is wet)
-last_time = time.time()
+START_TIME_1 = time(20, 00)   # Start
+END_TIME_1 = time(20, 3)     # End
+START_TIME_2 = time(8, 0)    # Start2
+END_TIME_2 = time(8, 3)      # End2
 
 def run():
     try:
@@ -24,25 +19,25 @@ def run():
         irrigate_time = is_time()
         irrigate = (not wet and irrigate_time)
         
-        print(f"controler: {wet} {irrigate_time}-> {irrigate}")
+        log.debug(f"Controller: Wet={wet}, Irrigate={irrigate_time} -> Irrigate={irrigate}")
         
         if irrigate:
-            reles8.set_pin_state(PIN_RELE,True)
-            log.debug("🌱💧💧💧")
+            reles8.set_pin_state(PIN_RELE, True)
+            log.debug("Starting irrigation 🌱💧")
         else:
-            reles8.set_pin_state(PIN_RELE,False)
+            reles8.set_pin_state(PIN_RELE, False)
             
     except Exception as e:
-                log.error(f"Error  {e}") 
+        log.error(f"Error in run function: {e}")
 
 def is_time():
     now = datetime.now().time()
     
-    # IN first range?
+    # ¿Estamos en el primer rango horario?
     if START_TIME_1 <= now <= END_TIME_1:
         return True
     
-    # IN second range?
+    # ¿Estamos en el segundo rango horario?
     elif START_TIME_2 <= now <= END_TIME_2:
         return True
     

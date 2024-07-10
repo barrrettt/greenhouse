@@ -18,7 +18,7 @@ PINS = {
         
 # all are output
 GPIO.setmode(GPIO.BCM)
-for pin in PINS: 
+for pin in PINS:
     GPIO.setup(pin, GPIO.OUT)
     GPIO.output(pin, GPIO.LOW)
                 
