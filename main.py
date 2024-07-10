@@ -60,7 +60,7 @@ def main():
         # Main loop 
         while True:
             try:
-                print_data()
+                save_data()
 
                 # Actuators ----
                 #engine_on_off.check()
@@ -88,9 +88,10 @@ def main():
         log.debug("Exit 👋") 
         
         
-def print_data():
+def save_data():
     global data
-    log.info(f"Sensor Data: {data}")
+    #log.debug(f"Sensor Data: {data}")
+    
     
 # script run
 if __name__ == "__main__": 
