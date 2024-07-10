@@ -25,7 +25,7 @@ def run():
         movement = has_movement()
         on_light = (night and movement)
         
-        print(f"controler: {night} {movement}")
+        #print(f"controler: {night} {movement}")
         
         global last_time
         now = time.time()
