@@ -13,6 +13,7 @@ from sensors import temp_humidity_dht20
 from modules import database
 
 from controllers import light_controller
+from controllers import water_controller
 
 from actuators import reles8
 
@@ -71,7 +72,8 @@ def main():
                 #engine_on_off.check()
                 
                 light_controller.run()
-                
+                water_controller.run()
+                #reles8.set_pin_state(20,False)
             
             except Exception as e:
                 log.error(f"Error main loop {e}") 
