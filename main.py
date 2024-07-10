@@ -10,6 +10,10 @@ from sensors import luminosity
 from sensors import pasive_ir
 from sensors import temp_humidity_dht20
 
+from modules import database
+
+from controllers import light_controller
+
 from actuators import reles8
 
 data = {
@@ -60,19 +64,20 @@ def main():
         # Main loop 
         while True:
             try:
+                #save actuators dictionary
                 save_data()
 
                 # Actuators ----
                 #engine_on_off.check()
                 
-                light_on = (data["luminosity"] <= 10)
-                reles8.set_pin_state(21,light_on)
+                light_controller.run()
+                
             
             except Exception as e:
                 log.error(f"Error main loop {e}") 
                 
             finally:
-                time.sleep(0.2)
+                time.sleep(0.5)
                 
     except KeyboardInterrupt:
         log.debug("User interrupt: stopping...") 
@@ -90,7 +95,8 @@ def main():
         
 def save_data():
     global data
-    #log.debug(f"Sensor Data: {data}")
+    database.insert_sensor_data(data)
+    print (database.count_records())
     
     
 # script run
