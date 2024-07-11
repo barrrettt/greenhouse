@@ -13,6 +13,7 @@ from sensors import temp_humidity_dht20
 
 from modules import database
 
+from controllers import email_controller
 from controllers import light_controller
 from controllers import water_controller
 
@@ -79,7 +80,7 @@ def main():
 
                 # Actuators ----
                 #engine_on_off.check()
-                
+                email_controller.run()
                 light_controller.run()
                 water_controller.run()
                 #reles8.set_pin_state(20,False)
