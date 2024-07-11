@@ -5,6 +5,7 @@ import time
 import logging
 from modules import my_log
 
+from sensors import internet_ip
 from sensors import humidity_ground
 from sensors import luminosity
 from sensors import pasive_ir
@@ -18,6 +19,8 @@ from controllers import water_controller
 from actuators import reles8
 
 data = {
+    "ip_local": None,
+    "internet": False,
     'humidity': None,
     'luminosity': None,
     'pasive_ir': None,
@@ -38,6 +41,12 @@ def main():
     
     try:
         # launch threads
+        t_internet_ip = threading.Thread(
+            target=internet_ip.read_loop, 
+            args=(data, lambda:running)
+            )
+        t_internet_ip.start()
+        
         t_luminosity = threading.Thread(
             target=luminosity.read_loop, 
             args=(data, lambda:running)
@@ -85,6 +94,7 @@ def main():
         log.debug("User interrupt: stopping...") 
         running = False
         # waiting for threads finish 
+        t_internet_ip.join()
         t_luminosity.join()
         t_pasive_ir.join()
         t_humidity_ground.join()
