@@ -20,14 +20,7 @@ def run():
         ip = datas[0]["ip_local"]
         if ip != local_ip:
             last_time = time.time()
-            email.send_email(
-                'smtp.gmail.com', 
-                587, 
-                'edadescompostela@gmail.com', 
-                '***', 
-                'javierfenandezbarreiro@gmail.com', 
-                'Cambio IP local raspi zero', 
-                f'IP LOCAL{ip}')
+            email.send_email(f'IP LOCAL{ip}')
             local_ip = ip
             log.debug("📧 email enviado ")
             

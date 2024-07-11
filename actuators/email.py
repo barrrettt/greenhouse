@@ -1,37 +1,29 @@
 import smtplib
+from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import logging
 
 log = logging.getLogger(__name__)
 
-def send_email(smtp_server, smtp_port, smtp_user, smtp_password, to_email, subject, body):
+def send_email(text:str):
+    
     try:
-        # Crear el objeto del mensaje
-        msg = MIMEMultipart()
-        msg['From'] = smtp_user
-        msg['To'] = to_email
-        msg['Subject'] = subject
-        
-        # Agregar el cuerpo del mensaje
-        msg.attach(MIMEText(body, 'plain'))
-        
-        # Conectar al servidor SMTP
-        server = smtplib.SMTP(smtp_server, smtp_port)
-        server.starttls()
-        
-        # Iniciar sesión en el servidor SMTP
-        server.login(smtp_user, smtp_password)
-        
-        # Enviar el correo
-        server.send_message(msg)
-        
-        # Cerrar la conexión al servidor SMTP
-        server.quit()
-        
-        log.info(f"Email enviado a {to_email}")
-    except Exception as e:
-        log.error(f"Error enviando email: {e}")
+        # Crear el mensaje
+        mensaje = MIMEMultipart()
+        mensaje['From'] = 'javierfernandezbarreiro@gmail.com'
+        mensaje['To'] = 'javierfernandezbarreiro@gmail.com'
+        mensaje['Subject'] = "Greengarden cambio IP local"
 
-# Ejemplo de uso:
-# send_email('smtp.example.com', 587, 'tu_correo@example.com', 'tu_contraseña', 'destinatario@example.com', 'Asunto', 'Cuerpo del mensaje')
+        # Adjuntar contenido HTML
+        mensaje.attach(MIMEText(text, 'plain'))
+
+        # Conectar al servidor SMTP y enviar correo
+        with smtplib.SMTP('smtp.gmail.com', 587) as server:
+            server.starttls()
+            server.login('javierfernandezbarreiro@gmail.com', '***')
+            server.sendmail('javierfernandezbarreiro@gmail.com', 'javierfernandezbarreiro@gmail.com', mensaje.as_string())
+
+    except Exception as e:
+        print('Error al enviar el correo.' + e)
+
