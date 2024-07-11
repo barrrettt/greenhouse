@@ -8,6 +8,8 @@ def main():
     CREATE TABLE IF NOT EXISTS sensor_data (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         timestamp TEXT NOT NULL,
+        ip_local TEXT,
+        internet INTEGER,
         humidity REAL,
         luminosity REAL,
         pasive_ir INTEGER,
@@ -29,6 +31,8 @@ def connect():
 def insert_sensor_data(data):
     conn, cursor = connect()
     timestamp = datetime.now().isoformat()
+    ip_local = data.get('ip_local',None)
+    internet = data.get('internet',None)
     humidity = data.get('humidity', None)
     luminosity = data.get('luminosity', None)
     pasive_ir = data.get('pasive_ir', None)
@@ -37,9 +41,9 @@ def insert_sensor_data(data):
     humidity_air = data.get('humidity_air', None)
 
     cursor.execute('''
-        INSERT INTO sensor_data (timestamp, humidity, luminosity, pasive_ir, humidity_ground, temperature_air, humidity_air)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-    ''', (timestamp, humidity, luminosity, pasive_ir, humidity_ground, temperature_air, humidity_air))
+        INSERT INTO sensor_data (timestamp, ip_local, internet, humidity, luminosity, pasive_ir, humidity_ground, temperature_air, humidity_air)
+        VALUES (?, ?, ? ,?, ?, ?, ?, ?, ?)
+    ''', (timestamp, ip_local,internet,humidity, luminosity, pasive_ir, humidity_ground, temperature_air, humidity_air))
 
     conn.commit()
     conn.close()

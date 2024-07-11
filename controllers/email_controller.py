@@ -19,7 +19,7 @@ def run():
         datas = database.fetch_last_10_rows()
         ip = datas[0]["ip_local"]
         if ip != local_ip:
-            last_time = now
+            last_time = time.time()
             email.send_email(
                 'smtp.gmail.com', 
                 587, 
