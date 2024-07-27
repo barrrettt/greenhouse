@@ -1,0 +1,14 @@
+[Unit]
+Description=Greenhouse Python Script
+After=multi-user.target
+
+[Service]
+Type=simple
+User=barrrettt
+Group=barrrettt
+ExecStart=/home/barrrettt/proyectos/barrrettt/greenhouse/venv/bin/python /home/barrrettt/proyectos/barrrettt/greenhouse/main.py
+StandardOutput=append:/home/barrrettt/proyectos/barrrettt/greenhouse/service.log
+StandardError=append:/home/barrrettt/proyectos/barrrettt/greenhouse/service.log
+
+[Install]
+WantedBy=multi-user.target

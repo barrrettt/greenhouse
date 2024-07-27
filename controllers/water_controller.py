@@ -8,7 +8,7 @@ log = logging.getLogger(__name__)
 PIN_RELE = 16
 READS_TO_WET = 5
 
-START_TIME_1 = time(20, 00)   # Start
+START_TIME_1 = time(20, 00)  # Start
 END_TIME_1 = time(20, 3)     # End
 START_TIME_2 = time(8, 0)    # Start2
 END_TIME_2 = time(8, 3)      # End2
@@ -17,9 +17,9 @@ def run():
     try:
         wet = is_wet()
         irrigate_time = is_time()
-        irrigate = (not wet and irrigate_time)
+        irrigate = irrigate_time #(not wet and irrigate_time)
         
-        log.debug(f"Controller: Wet={wet}, Irrigate={irrigate_time} -> Irrigate={irrigate}")
+        #log.debug(f"Controller: Wet={wet}, Irrigate={irrigate_time} -> Irrigate={irrigate}")
         
         if irrigate:
             reles8.set_pin_state(PIN_RELE, True)
@@ -39,6 +39,9 @@ def is_time():
     
     # ¿Estamos en el segundo rango horario?
     elif START_TIME_2 <= now <= END_TIME_2:
+        return True
+    
+    elif datetime.now().minute %2 == 0:
         return True
     
     return False

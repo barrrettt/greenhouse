@@ -1,6 +1,8 @@
 import sqlite3
 from datetime import datetime
 
+db_file="/home/barrrettt/proyectos/barrrettt/greenhouse/sensor_data.db"
+
 def main():
     conn,cursor = connect()
     # datos
@@ -22,7 +24,7 @@ def main():
     conn.close()
 
 def connect():
-    conn = sqlite3.connect('sensor_data.db')
+    conn = sqlite3.connect(db_file)
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
     return conn,cursor
